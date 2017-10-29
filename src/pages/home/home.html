@@ -7,14 +7,25 @@
 </ion-header>
 
 <ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-list>
-    <button ion-item *ngFor="let animal of animales">
-      <ion-avatar item-left>
-        <img [src]="animal.imagen">
-      </ion-avatar>
-      <h2> {{ animal.nombre }} </h2>
-      <ion-icon *ngIf="!animal.reproduciendo" item-right name="play" (click)="play(animal)"> </ion-icon>
-      <ion-icon *ngIf="animal.reproduciendo" item-right name="pause" (click)="play(animal)"> </ion-icon>
-    </button>
+    <ion-item-sliding *ngFor="let animal of animals; let id = index">
+      <button ion-item>
+        <ion-avatar item-left>
+          <img [src]="animal.imagen">
+        </ion-avatar>
+        <h2> {{ animal.nombre }} </h2>
+        <ion-icon *ngIf="!animal.reproduciendo" item-right name="play" (click)="play(animal)"> </ion-icon>
+        <ion-icon *ngIf="animal.reproduciendo" item-right name="pause" (click)="pause(animal)"> </ion-icon>
+      </button>
+      <ion-item-options side="right">
+        <button ion-button color="danger" (click)="deleteAnimal(id)">
+        <ion-icon name="trash"></ion-icon>
+        Delete
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
 </ion-content>
