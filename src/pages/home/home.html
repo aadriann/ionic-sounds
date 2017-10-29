@@ -3,14 +3,20 @@
     <ion-title>
       Sounds App
     </ion-title>
+    <ion-buttons end>
+      <button *ngIf="!ordering" ion-button (click)="ordering = !ordering"> Edit </button>
+      <button *ngIf="ordering" ion-button (click)="ordering = !ordering"> Done </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <ion-refresher (ionRefresh)="doRefresh($event)">
+  <ion-refresher [enabled]="!ordering" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <ion-list>
+    <ion-list-header>Animals</ion-list-header>
+    <ion-item-group (ionItemReorder)="doOrder($event)" [reorder]="ordering">
     <ion-item-sliding *ngFor="let animal of animals; let id = index">
       <button ion-item>
         <ion-avatar item-left>
@@ -27,5 +33,6 @@
         </button>
       </ion-item-options>
     </ion-item-sliding>
+  </ion-item-group>
   </ion-list>
 </ion-content>

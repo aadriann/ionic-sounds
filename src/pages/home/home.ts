@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { ANIMALES } from '../../data/data.animales'
 import { Animal } from '../../interfaces/animal.interface'
+import { reorderArray } from 'ionic-angular';
 import { Refresher } from 'ionic-angular'
 
 @Component({
@@ -12,6 +13,7 @@ import { Refresher } from 'ionic-angular'
 export class HomePage {
   animals:Animal[] = [];
   audio = new Audio();
+  ordering: boolean = false;
   constructor(public navCtrl: NavController) {
     this.animals = ANIMALES.slice(0);
   }
@@ -35,11 +37,16 @@ export class HomePage {
     this.animals.splice(id, 1);
   }
 
+  doOrder(idxs) {
+    this.animals = reorderArray(this.animals, idxs);
+  }
+
   doRefresh(refresher: Refresher) {
     console.log('Begin async operation', refresher);
 
     setTimeout(() => {
       console.log('Async operation has ended');
+      this.animals = ANIMALES.slice(0);
       refresher.complete();
     }, 1000);
   }
